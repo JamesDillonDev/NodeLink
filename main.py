@@ -35,7 +35,7 @@ def messages():
 
 @app.route('/api/send', methods=['POST'])
 def send():
-    data = request.form.get('message')
+    data = request.args.get('message')
     send_message(data) 
     return jsonify("Success")
 
