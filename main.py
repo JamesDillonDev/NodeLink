@@ -36,8 +36,8 @@ def messages():
 
 @app.route('/api/send', methods=['POST'])
 def send():
-    data = request.json.payload
-    send_message(data)
+    data = request.json
+    send_message(data["payload"])
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000)
