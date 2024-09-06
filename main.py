@@ -34,7 +34,7 @@ def messages():
     with open('messages.json', 'r') as file:
         return json.load(file)
 
-@app.route('/api/send', methods=['POST'])
+@app.route('/api/send', methods=['PUT'])
 def send():
     data = request.json
     send_message(data["payload"])
