@@ -249,6 +249,7 @@ class sx126x:
         # if self.rssi == True:
             # self.get_channel_rssi()
         time.sleep(0.1)
+        return
 
 
     def receive(self):
@@ -275,3 +276,4 @@ class sx126x:
         else:
             # pass
             print("receive rssi value fail")
+        return
