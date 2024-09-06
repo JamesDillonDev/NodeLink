@@ -7,9 +7,8 @@ import json
 node = sx126x.sx126x(serial_num="/dev/ttyS0", freq=868, addr=0, power=22, rssi=True, air_speed=2400, relay=False)
 
 def send_message(message):
-    while True:
-        data = bytes([255]) + bytes([255]) + bytes([18]) + bytes([255]) + bytes([255]) + bytes([12]) + message.encode()
-        node.send(data)
+    data = bytes([255]) + bytes([255]) + bytes([18]) + bytes([255]) + bytes([255]) + bytes([12]) + message.encode()
+    node.send(data)
 
 def message_handler():
     while True:
@@ -34,10 +33,10 @@ def messages():
     with open('messages.json', 'r') as file:
         return json.load(file)
 
-@app.route('/api/send', methods=['PUT'])
+@app.route('/api/send', methods=['POST'])
 def send():
-    data = request.json
-    send_message(data["payload"]) 
+    data = request.form.get('message')
+    send_message(data) 
     return jsonify("Success")
 
 if __name__ == '__main__':
