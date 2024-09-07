@@ -16,7 +16,7 @@ function App() {
   // Fetch messages from the backend
   const fetchMessages = async () => {
     try {
-      const response = await axios.get('http://192.168.0.13:5000/api/messages');
+      const response = await axios.get('http://localhost:5000/api/messages');
       setMessages(response.data);
     } catch (error) {
       console.error("Error fetching messages:", error);
@@ -40,7 +40,7 @@ function App() {
   const sendMessage = async () => {
     if (inputValue.trim() !== "") {
       try {
-        await axios.post('http://192.168.0.13:5000/api/send', null, {
+        await axios.post('http://localhost:5000/api/send', null, {
           params: { message: inputValue }
         });
         setInputValue("");  // Clear the input field

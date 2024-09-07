@@ -5,9 +5,12 @@ from flask import Flask, jsonify, request, send_from_directory
 from threading import Thread
 import sx126x
 import time
+from flask_cors import CORS
 
 # Initialize Flask app
 app = Flask(__name__)
+CORS(app)  # Enable CORS for all routes
+
 
 # Database functions
 def get_db_connection():
