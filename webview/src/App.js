@@ -1,4 +1,4 @@
-import React, { useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './App.css';
 
@@ -12,19 +12,24 @@ function App() {
   // State to store the list of messages
   const [messages, setMessages] = useState([]);
 
-
   useEffect(() => {
-    const fetchStatus = async () => {
+    const fetchMessages = async () => {
       try {
         const response = await client.get("/messages");
-        console.log(response);
-      }
-      catch (error) {
-        console.error("Error messages:", error);
+        // Set the messages in state
+        setMessages(JSON.parse(response.data));
+      } catch (error) {
+        console.error("Error fetching messages:", error);
       }
     };
-    fetchStatus();
-  }, [3000]);
+
+    // Fetch messages initially and set up interval for periodic updates
+    fetchMessages();
+    const interval = setInterval(fetchMessages, 3000);
+
+    // Cleanup interval on component unmount
+    return () => clearInterval(interval);
+  }, []);
 
   // Handle input change
   const handleInputChange = (e) => {
@@ -43,9 +48,11 @@ function App() {
   const sendMessage = async () => {
     if (inputValue.trim() !== "") {
       try {
-        // Add the new message to the message list
-        setMessages([...messages, inputValue]);
+        await client.post("/send", null, { params: { message: inputValue } });
         setInputValue("");  // Clear the input field
+        // Optionally refresh messages after sending
+        const response = await client.get("/messages");
+        setMessages(JSON.parse(response.data));
       } catch (error) {
         console.error("Error sending message:", error);
       }
@@ -57,7 +64,9 @@ function App() {
       <div className="messages-container">
         {/* Render chat messages */}
         {messages.map((message, index) => (
-          <div key={index} className="message">{message}</div>
+          <div key={index} className="message">
+            <strong>{message.Username}:</strong> {message.Message}
+          </div>
         ))}
       </div>
 
