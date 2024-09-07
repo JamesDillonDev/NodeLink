@@ -4,6 +4,7 @@ from datetime import datetime
 from flask import Flask, jsonify, request
 from threading import Thread
 import sx126x
+import time
 
 # Initialize Flask app
 app = Flask(__name__)
@@ -28,6 +29,7 @@ def create_database():
         conn.commit()
 
 def add_message(username, message, timestamp):
+    time.sleep(0.1)
     with get_db_connection() as conn:
         cursor = conn.cursor()
         cursor.execute('''
