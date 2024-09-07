@@ -54,6 +54,12 @@ def display_messages():
         
         return json.dumps(messages, indent=4)
 
+def clear_messages():
+    with get_db_connection() as conn:
+        cursor = conn.cursor()
+        cursor.execute('DELETE FROM Messages')
+        conn.commit()
+
 # Board Controller
 node = sx126x.sx126x(serial_num="/dev/ttyS0", freq=868, addr=0, power=22, rssi=True, air_speed=2400, relay=False)
 
@@ -81,7 +87,12 @@ def messages():
 def send():
     data = request.args.get('message')
     send_message(data) 
-    return jsonify("Success")
+    return jsonify("Message Sent")
+
+@app.route('/api/clear', methods=['POST'])
+def clear():
+    clear_messages()
+    return jsonify("Messages cleared")
 
 # Initialize
 if __name__ == '__main__':
