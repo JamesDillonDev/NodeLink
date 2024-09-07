@@ -261,7 +261,7 @@ class sx126x:
             #message = r_buff[3:-1]
             #print(f"Cropped message: {message}") 
             
-            message = message.decode().strip('\x00')
+            message = r_buff.decode().strip('\x00')
             print(f"Decoded message: {message}") 
             return message
             
