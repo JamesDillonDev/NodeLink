@@ -256,8 +256,8 @@ class sx126x:
         if self.ser.inWaiting() > 0:
             time.sleep(0.5)
             r_buff = self.ser.read(self.ser.inWaiting())
-            print(r_buff)
-            return str(r_buff[3:-1])
+            message = str(r_buff[3:-1])
+            return message
             
     def get_channel_rssi(self):
         GPIO.output(self.M1,GPIO.LOW)

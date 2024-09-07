@@ -73,7 +73,7 @@ def send_message(message):
 def message_handler():
     while True:
         message = node.receive()
-        if message is not None:
+        if message is not None and not "":
             add_message("UNKNOWN", message, datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
 
 # Flask routes
