@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Start the Python script in the background
-python3 main.py &
+sudo python main.py &
 
 # Wait for the Python script to start
 sleep 10
