@@ -7,6 +7,7 @@ import json
 node = sx126x.sx126x(serial_num="/dev/ttyS0", freq=868, addr=0, power=22, rssi=True, air_speed=2400, relay=False)
 
 def send_message(message):
+    print(message)
     data = bytes([255]) + bytes([255]) + bytes([18]) + bytes([255]) + bytes([255]) + bytes([12]) + message.encode()
     node.send(data)
 
@@ -15,6 +16,8 @@ def message_handler():
         message = node.receive()        
         if message is not None:
             message_to_append = {'payload': message}
+            print(message_to_append)
+
             with open('messages.json', 'r') as file:
                 data = json.load(file)
                 data.append(message_to_append)
