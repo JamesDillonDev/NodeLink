@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import './App.css';
 
@@ -26,11 +26,20 @@ function App() {
   };
 
   // Send the message
-  const sendMessage = () => {
+  const sendMessage = async () => {
     if (inputValue.trim() !== "") {
-      setMessages([...messages, inputValue]);  // Add the new message to the message list
-      console.log("Hello World")
-      setInputValue("");  // Clear the input field
+      try {
+        // Post the message to the server
+        await client.post("/send", {
+          message: inputValue
+        });
+
+        // Add the new message to the message list
+        setMessages([...messages, inputValue]);
+        setInputValue("");  // Clear the input field
+      } catch (error) {
+        console.error("Error sending message:", error);
+      }
     }
   };
 

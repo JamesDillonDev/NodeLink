@@ -81,10 +81,13 @@ def messages():
 
 @app.route('/api/send', methods=['POST'])
 def send():
-    data = request.args.get('message')
-    send_message(data)
-    return jsonify("Message Sent")
-
+    data = request.json
+    message = data.get('message')
+    if message:
+        send_message(message)
+        return jsonify("Message Sent")
+    else:
+        return jsonify({"error": "No message provided"}), 400
 @app.route('/api/clear', methods=['POST'])
 def clear():
     clear_messages()
