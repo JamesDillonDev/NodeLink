@@ -257,6 +257,7 @@ class sx126x:
             time.sleep(0.5)
             r_buff = self.ser.read(self.ser.inWaiting())
             message = str(r_buff[3:-1])
+            message = message.decode()
             return message
             
     def get_channel_rssi(self):
