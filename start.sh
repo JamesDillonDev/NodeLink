@@ -1,11 +1,11 @@
 #!/bin/bash
 
 # Start the Python script in the background
-sudo python main.py &
+sudo nohup python ./app.py &
 
 # Wait for the Python script to start
-sleep 10
+sleep 5
 
 # Navigate to the webview directory and run npm
 cd webview
-npm run start
+sudo npm run start &
