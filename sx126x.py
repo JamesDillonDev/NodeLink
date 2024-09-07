@@ -255,9 +255,13 @@ class sx126x:
     def receive(self):
         if self.ser.inWaiting() > 0:
             time.sleep(0.5)
+            
             r_buff = self.ser.read(self.ser.inWaiting())
+            print(f"Received raw message: {r_buff}")
             message = r_buff[3:-1]
+            print(f"Cropped message: {message}") 
             message = message.decode()
+            print(f"Decoded message: {message}") 
             return message
             
     def get_channel_rssi(self):
