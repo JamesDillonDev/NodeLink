@@ -8,20 +8,9 @@ function App() {
   // State to store the list of messages
   const [messages, setMessages] = useState([]);
 
-  useEffect(() => {
-    // Fetch messages when the component mounts
-    fetchMessages();
-  }, []);
-
-  // Fetch messages from the backend
-  const fetchMessages = async () => {
-    try {
-      const response = await axios.get('http://localhost:5000/api/messages');
-      setMessages(response.data);
-    } catch (error) {
-      console.error("Error fetching messages:", error);
-    }
-  };
+  const client = axios.create({
+    baseURL: "http://node2.local:3010/api",
+  });
 
   // Handle input change
   const handleInputChange = (e) => {
@@ -36,18 +25,12 @@ function App() {
     }
   };
 
-  // Send the message to the backend
-  const sendMessage = async () => {
+  // Send the message
+  const sendMessage = () => {
     if (inputValue.trim() !== "") {
-      try {
-        await axios.post('http://localhost:5000/api/send', null, {
-          params: { message: inputValue }
-        });
-        setInputValue("");  // Clear the input field
-        fetchMessages();  // Refresh the message list
-      } catch (error) {
-        console.error("Error sending message:", error);
-      }
+      setMessages([...messages, inputValue]);  // Add the new message to the message list
+      console.log("Hello World")
+      setInputValue("");  // Clear the input field
     }
   };
 
@@ -56,7 +39,7 @@ function App() {
       <div className="messages-container">
         {/* Render chat messages */}
         {messages.map((message, index) => (
-          <div key={index} className="message">{message.Message}</div>
+          <div key={index} className="message">{message}</div>
         ))}
       </div>
 
