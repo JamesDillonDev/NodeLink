@@ -258,9 +258,10 @@ class sx126x:
             
             r_buff = self.ser.read(self.ser.inWaiting())
             print(f"Received raw message: {r_buff}")
-            message = r_buff[3:-1]
-            print(f"Cropped message: {message}") 
-            message = message.decode()
+            #message = r_buff[3:-1]
+            #print(f"Cropped message: {message}") 
+            
+            message = message.decode().strip('\x00')
             print(f"Decoded message: {message}") 
             return message
             
