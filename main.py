@@ -17,8 +17,7 @@ def get_db_connection():
 
 def create_database():
     with get_db_connection() as conn:
-        cursor = conn.cursor()
-        cursor.execute('''
+        conn.execute('''
         CREATE TABLE IF NOT EXISTS Messages (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             username TEXT,
@@ -29,10 +28,8 @@ def create_database():
         conn.commit()
 
 def add_message(username, message, timestamp):
-    time.sleep(0.1)
     with get_db_connection() as conn:
-        cursor = conn.cursor()
-        cursor.execute('''
+        conn.execute('''
         INSERT INTO Messages (username, message, timestamp)
         VALUES (?, ?, ?)
         ''', (username, message, timestamp))
@@ -40,40 +37,34 @@ def add_message(username, message, timestamp):
 
 def display_messages():
     with get_db_connection() as conn:
-        cursor = conn.cursor()
-        cursor.execute('SELECT * FROM Messages')
-        data = cursor.fetchall()
-        
-        messages = []
-        for row in data:
-            message_dict = {
+        cursor = conn.execute('SELECT * FROM Messages')
+        messages = [
+            {
                 "ID": row['id'],
                 "Username": row['username'],
                 "Message": row['message'],
                 "Timestamp": row['timestamp']
             }
-            messages.append(message_dict)
-        
+            for row in cursor.fetchall()
+        ]
         return json.dumps(messages, indent=4)
 
 def clear_messages():
     with get_db_connection() as conn:
-        cursor = conn.cursor()
-        cursor.execute('DELETE FROM Messages')
+        conn.execute('DELETE FROM Messages')
         conn.commit()
 
 # Board Controller
 node = sx126x.sx126x(serial_num="/dev/ttyS0", freq=868, addr=0, power=22, rssi=True, air_speed=2400, relay=False)
 
 def send_message(message):
-    print(message)
-    data = bytes([255]) + bytes([255]) + bytes([18]) + bytes([255]) + bytes([255]) + bytes([12]) + message.encode()
+    data = bytes([255, 255, 18, 255, 255, 12]) + message.encode()
     node.send(data)
 
 def message_handler():
     while True:
         message = node.receive()
-        if message is not None and not "":
+        if message and message.strip():
             add_message("UNKNOWN", message, datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
 
 # Flask routes
@@ -88,7 +79,7 @@ def messages():
 @app.route('/api/send', methods=['POST'])
 def send():
     data = request.args.get('message')
-    send_message(data) 
+    send_message(data)
     return jsonify("Message Sent")
 
 @app.route('/api/clear', methods=['POST'])
@@ -99,6 +90,5 @@ def clear():
 # Initialize
 if __name__ == '__main__':
     create_database()
-    messageHandler = Thread(target=message_handler)
-    messageHandler.start()
+    Thread(target=message_handler, daemon=True).start()
     app.run(debug=True, host='0.0.0.0', port=5000)
