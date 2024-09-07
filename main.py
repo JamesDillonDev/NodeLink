@@ -13,14 +13,16 @@ def send_message(message):
 
 def message_handler():
     while True:
-        message = node.receive()        
+        message = node.receive()
         if message is not None:
             message_to_append = {'payload': message}
             print(message_to_append)
 
             with open('messages.json', 'r') as file:
-                data = json.load(file)
-                data.append(message_to_append)
+                data = json.load(file)  # 'data' should be a dictionary
+                if 'messages' not in data:
+                    data['messages'] = []  # Create a list if not present
+                data['messages'].append(message_to_append)  # Append to the list
 
             with open('messages.json', 'w') as file:
                 json.dump(data, file, indent=4)
@@ -44,6 +46,6 @@ def send():
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000)
-    
+
     messageHandler = Thread(target=message_handler)
     messageHandler.start()

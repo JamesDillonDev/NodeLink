@@ -1,3 +1,6 @@
 {
-    "payload": "Hello World"
+    "messages": [
+        {"payload": "some message"},
+        {"payload": "another message"}
+    ]
 }
