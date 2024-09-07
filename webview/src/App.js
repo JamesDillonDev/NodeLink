@@ -2,15 +2,16 @@ import React, { useState, useEffect} from 'react';
 import axios from 'axios';
 import './App.css';
 
+const client = axios.create({
+  baseURL: "http://node2.local:3010/api",
+});
+
 function App() {
   // State to store the input value
   const [inputValue, setInputValue] = useState("");
   // State to store the list of messages
   const [messages, setMessages] = useState([]);
 
-  const client = axios.create({
-    baseURL: "http://node2.local:3010/api",
-  });
 
   useEffect(() => {
     const fetchStatus = async () => {
