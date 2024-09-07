@@ -3,7 +3,7 @@ import axios from 'axios';
 import './App.css';
 
 const client = axios.create({
-  baseURL: "http://node2.local:3010/api",
+  baseURL: "http://node2.local:5000/api",
 });
 
 function App() {
