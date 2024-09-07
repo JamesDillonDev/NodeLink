@@ -22,6 +22,7 @@ function App() {
         console.error("Error messages:", error);
       }
     };
+    fetchStatus();
   }, [3000]);
 
   // Handle input change
