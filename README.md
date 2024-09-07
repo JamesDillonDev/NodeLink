@@ -17,6 +17,8 @@ By default, the primary UART is assigned to the Linux console. If you wish to us
 
   `sudo apt install python3-serial`
   `sudo apt install python3-flask`
+  `sudo apt install sqlite3`
+
   
 ### Running Program
   `sudo python3 main.py`
