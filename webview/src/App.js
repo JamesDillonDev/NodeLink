@@ -12,6 +12,18 @@ function App() {
     baseURL: "http://node2.local:3010/api",
   });
 
+  useEffect(() => {
+    const fetchStatus = async () => {
+      try {
+        const response = await client.get("/messages");
+        console.log(response);
+      }
+      catch (error) {
+        console.error("Error messages:", error);
+      }
+    };
+  }, [3000]);
+
   // Handle input change
   const handleInputChange = (e) => {
     setInputValue(e.target.value);
@@ -29,11 +41,6 @@ function App() {
   const sendMessage = async () => {
     if (inputValue.trim() !== "") {
       try {
-        // Post the message to the server
-        await client.post("/send", {
-          message: inputValue
-        });
-
         // Add the new message to the message list
         setMessages([...messages, inputValue]);
         setInputValue("");  // Clear the input field
