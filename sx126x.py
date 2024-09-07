@@ -256,7 +256,7 @@ class sx126x:
         if self.ser.inWaiting() > 0:
             time.sleep(0.5)
             r_buff = self.ser.read(self.ser.inWaiting())
-            message = str(r_buff[3:-1])
+            message = r_buff[3:-1]
             message = message.decode()
             return message
             
