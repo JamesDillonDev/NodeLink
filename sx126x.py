@@ -250,18 +250,21 @@ class sx126x:
             # self.get_channel_rssi()
         time.sleep(0.1)
         return
-
-
+    
     def receive(self):
         if self.ser.inWaiting() > 0:
             time.sleep(0.5)
             
             r_buff = self.ser.read(self.ser.inWaiting())
             print(f"Received raw message: {r_buff}")
-            message = r_buff[3:-1]
-            print(f"Cropped message: {message}") 
-            message = r_buff.decode("utf-8")
-            print(f"Decoded message: {message}") 
+
+            payload_start_index = 3
+            # Find the position of the end of the payload (null byte)
+            payload_end_index = r_buff.find(b'\x00', payload_start_index)
+            # Extract and return the payload
+            payload = r_buff[payload_start_index:payload_end_index]
+            message = payload.decode()
+            print(message)
             return message
             
     def get_channel_rssi(self):
