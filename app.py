@@ -98,4 +98,4 @@ def swagger():
 if __name__ == '__main__':
     create_database()
     Thread(target=message_handler, daemon=True).start()
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=5000, debug=True)
