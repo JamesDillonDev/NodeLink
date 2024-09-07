@@ -236,7 +236,6 @@ class sx126x:
             print("Power is {0} dBm" + lora_power_dic.get(None,power_temp))
             GPIO.output(M1,GPIO.LOW)
 
-#
 # the data format like as following
 # "node address,frequence,payload"
 # "20,868,Hello World"
@@ -259,7 +258,7 @@ class sx126x:
             payload_start_index = 3
 
             payload_end_index = r_buff.find(b'\x00', payload_start_index)
-            
+
             payload = r_buff[payload_start_index:payload_end_index]
             message = payload.decode()
             return message

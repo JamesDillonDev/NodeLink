@@ -70,7 +70,7 @@ def message_handler():
 # Flask routes
 @app.route('/api')
 def api():
-    return jsonify("NodeLink API v1.0")
+    return jsonify("NodeLink API v1.1")
 
 @app.route('/api/messages', methods=['GET'])
 def messages():
