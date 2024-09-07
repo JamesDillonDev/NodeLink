@@ -8,4 +8,4 @@ sleep 5
 
 # Navigate to the webview directory and run npm
 cd webview
-sudo npm run start &
+npm run start
