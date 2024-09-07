@@ -1,7 +1,7 @@
 import json
 import sqlite3
 from datetime import datetime
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, render_template, request
 from threading import Thread
 import sx126x
 import time
@@ -86,6 +86,10 @@ def send():
 def clear():
     clear_messages()
     return jsonify("Messages cleared")
+
+@app.route('/api/swagger')
+def swagger():
+    return render_template('index.html')
 
 # Initialize
 if __name__ == '__main__':
