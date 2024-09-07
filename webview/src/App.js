@@ -1,4 +1,5 @@
-import React, {useState} from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import './App.css';
 
 function App() {
@@ -6,6 +7,21 @@ function App() {
   const [inputValue, setInputValue] = useState("");
   // State to store the list of messages
   const [messages, setMessages] = useState([]);
+
+  useEffect(() => {
+    // Fetch messages when the component mounts
+    fetchMessages();
+  }, []);
+
+  // Fetch messages from the backend
+  const fetchMessages = async () => {
+    try {
+      const response = await axios.get('http://localhost:5000/api/messages');
+      setMessages(response.data);
+    } catch (error) {
+      console.error("Error fetching messages:", error);
+    }
+  };
 
   // Handle input change
   const handleInputChange = (e) => {
@@ -20,11 +36,18 @@ function App() {
     }
   };
 
-  // Send the message
-  const sendMessage = () => {
+  // Send the message to the backend
+  const sendMessage = async () => {
     if (inputValue.trim() !== "") {
-      setMessages([...messages, inputValue]);  // Add the new message to the message list
-      setInputValue("");  // Clear the input field
+      try {
+        await axios.post('http://localhost:5000/api/send', null, {
+          params: { message: inputValue }
+        });
+        setInputValue("");  // Clear the input field
+        fetchMessages();  // Refresh the message list
+      } catch (error) {
+        console.error("Error sending message:", error);
+      }
     }
   };
 
@@ -33,7 +56,7 @@ function App() {
       <div className="messages-container">
         {/* Render chat messages */}
         {messages.map((message, index) => (
-          <div key={index} className="message">{message}</div>
+          <div key={index} className="message">{message.Message}</div>
         ))}
       </div>
 
