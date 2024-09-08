@@ -27,7 +27,7 @@ function App() {
 
     // Fetch messages initially and set up interval for periodic updates
     fetchMessages();
-    const interval = setInterval(fetchMessages, 3000);
+    const interval = setInterval(fetchMessages, 1000);
 
     // Cleanup the interval on component unmount
     return () => clearInterval(interval);
@@ -62,6 +62,17 @@ function App() {
     }
   };
 
+  // Clear all messages from the server
+  const clearMessages = async () => {
+    try {
+      await client.post("/clear");
+      // Clear the messages from state after clearing them on the server
+      setMessages([]);
+    } catch (error) {
+      console.error("Error clearing messages:", error);
+    }
+  };
+
   return (
     <div className="chat-container">
       <div className="messages-container">
@@ -81,6 +92,11 @@ function App() {
         placeholder="Type a message..."
         className="chat-input"
       />
+
+      {/* Button to clear messages */}
+      <button onClick={clearMessages} className="clear-button">
+        Clear Messages
+      </button>
     </div>
   );
 }
