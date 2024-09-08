@@ -95,7 +95,7 @@ def send():
     send_message(data)
     
     # Add the message to the database
-    add_message("You", data)
+    add_message("You", data, timestamp)
 
     return jsonify({
         "status": "Message Sent",
