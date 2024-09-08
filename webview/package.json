@@ -12,7 +12,7 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "react-scripts start && npm run build-api",
     "build": "react-scripts build",
     "build-api": "cd /home/admin/Projects/NodeLink && flask run --no-debugger",
     "test": "react-scripts test",
