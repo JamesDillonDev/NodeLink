@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './App.css';
 
+// Create an Axios client with a base URL for your API
 const client = axios.create({
   baseURL: "http://node2.local:5000/api/v1/",
 });
@@ -12,12 +13,13 @@ function App() {
   // State to store the list of messages
   const [messages, setMessages] = useState([]);
 
+  // Fetch messages on component mount and periodically every 3 seconds
   useEffect(() => {
     const fetchMessages = async () => {
       try {
         const response = await client.get("/messages");
-        console.log(response.data)
-
+        // Set the received messages to the state
+        setMessages(response.data);
       } catch (error) {
         console.error("Error fetching messages:", error);
       }
@@ -27,7 +29,7 @@ function App() {
     fetchMessages();
     const interval = setInterval(fetchMessages, 3000);
 
-    // Cleanup interval on component unmount
+    // Cleanup the interval on component unmount
     return () => clearInterval(interval);
   }, []);
 
@@ -39,15 +41,25 @@ function App() {
   // Handle key press (Enter to send, Shift + Enter for a new line)
   const handleKeyDown = (e) => {
     if (e.key === 'Enter' && !e.shiftKey) {
-      e.preventDefault();  // Prevents default behavior of Enter
+      e.preventDefault();  // Prevent the default behavior of Enter
       sendMessage();
     }
   };
 
-  // Send the message
+  // Send the message to the server
   const sendMessage = async () => {
     if (inputValue.trim() !== "") {
-      console.log(inputValue);
+      try {
+        const response = await client.post("/messages", {
+          message: inputValue,  // Assuming your backend expects a 'message' field
+        });
+        // Clear the input field after sending the message
+        setInputValue("");
+        // Optionally, fetch messages again to update the message list after sending
+        setMessages([...messages, response.data]); // Update messages with the newly sent message
+      } catch (error) {
+        console.error("Error sending message:", error);
+      }
     }
   };
 
@@ -57,7 +69,7 @@ function App() {
         {/* Render chat messages */}
         {messages.map((message, index) => (
           <div key={index} className="message">
-            <strong>{message.Username}:</strong> {message.Message}
+            <strong>{message.username}:</strong> {message.message}
           </div>
         ))}
       </div>
