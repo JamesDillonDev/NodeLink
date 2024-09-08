@@ -67,6 +67,13 @@ def message_handler():
             add_message("UNKNOWN", message, datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
 
 # Flask routes
+@app.after_request
+def add_cors_headers(response):
+    response.headers['Access-Control-Allow-Origin'] = '*'
+    response.headers['Access-Control-Allow-Methods'] = 'GET, POST, OPTIONS'
+    response.headers['Access-Control-Allow-Headers'] = 'Content-Type, Authorization'
+    return response
+
 @app.route('/api/v1')
 def api():
     return jsonify("NodeLink API v1.1")
