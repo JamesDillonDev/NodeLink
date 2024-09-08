@@ -3,7 +3,7 @@ import axios from 'axios';
 import './App.css';
 
 const client = axios.create({
-  baseURL: "http://node2.local:5000/api",
+  baseURL: "http://node2.local:5000/api/v1/",
 });
 
 function App() {
@@ -16,8 +16,8 @@ function App() {
     const fetchMessages = async () => {
       try {
         const response = await client.get("/messages");
-        // Set the messages in state
-        setMessages(JSON.parse(response.data));
+        console.log(response)
+
       } catch (error) {
         console.error("Error fetching messages:", error);
       }
@@ -47,15 +47,7 @@ function App() {
   // Send the message
   const sendMessage = async () => {
     if (inputValue.trim() !== "") {
-      try {
-        await client.post("/send", null, { params: { message: inputValue } });
-        setInputValue("");  // Clear the input field
-        // Optionally refresh messages after sending
-        const response = await client.get("/messages");
-        setMessages(JSON.parse(response.data));
-      } catch (error) {
-        console.error("Error sending message:", error);
-      }
+      console.log(inputValue);
     }
   };
 

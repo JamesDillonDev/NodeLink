@@ -4,13 +4,9 @@ from datetime import datetime
 from flask import Flask, jsonify, request, send_from_directory
 from threading import Thread
 import sx126x
-import time
-from flask_cors import CORS
 
 # Initialize Flask app
 app = Flask(__name__)
-CORS(app)  # Enable CORS for all routes
-
 
 # Database functions
 def get_db_connection():
@@ -71,26 +67,26 @@ def message_handler():
             add_message("UNKNOWN", message, datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
 
 # Flask routes
-@app.route('/api')
+@app.route('/api/v1')
 def api():
     return jsonify("NodeLink API v1.1")
 
-@app.route('/api/messages', methods=['GET'])
+@app.route('/api/v1/messages', methods=['GET'])
 def messages():
     return display_messages()
 
-@app.route('/api/send', methods=['POST'])
+@app.route('/api/v1/send', methods=['POST'])
 def send():
     data = request.args.get('message')
     send_message(data)
     return jsonify("Message Sent")
 
-@app.route('/api/clear', methods=['POST'])
+@app.route('/api/v1/clear', methods=['POST'])
 def clear():
     clear_messages()
     return jsonify("Messages cleared")
 
-@app.route('/api/swagger')
+@app.route('/api/v1/swagger')
 def swagger():
     return send_from_directory('.', 'index.html')
 
