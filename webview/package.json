@@ -14,6 +14,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "build-api": "cd /home/admin/Projects/NodeLink && flask run --no-debugger",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
@@ -35,5 +36,5 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://localhost:5000"
+  "proxy": "http://node2.local:5000"
 }
