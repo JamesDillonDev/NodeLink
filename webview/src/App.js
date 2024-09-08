@@ -4,7 +4,7 @@ import './App.css';
 
 // Create an Axios client with a base URL for your API
 const client = axios.create({
-  baseURL: "http://node2.local:5000/api/v1/",
+  baseURL: "http://node2.local:5000/api/v1/", // Update to your Flask API URL
 });
 
 function App() {
@@ -50,13 +50,13 @@ function App() {
   const sendMessage = async () => {
     if (inputValue.trim() !== "") {
       try {
-        const response = await client.post("/messages", {
-          message: inputValue,  // Assuming your backend expects a 'message' field
+        const response = await client.post("/send", null, {
+          params: { message: inputValue } // Sending message as a query parameter
         });
         // Clear the input field after sending the message
         setInputValue("");
         // Optionally, fetch messages again to update the message list after sending
-        setMessages([...messages, response.data]); // Update messages with the newly sent message
+        setMessages([...messages, { username: "You", message: inputValue }]); // Update messages with the newly sent message
       } catch (error) {
         console.error("Error sending message:", error);
       }
@@ -69,7 +69,7 @@ function App() {
         {/* Render chat messages */}
         {messages.map((message, index) => (
           <div key={index} className="message">
-            <strong>{message.username}:</strong> {message.message}
+            <strong>{message.Username}:</strong> {message.Message}
           </div>
         ))}
       </div>
