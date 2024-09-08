@@ -84,9 +84,25 @@ def messages():
 
 @app.route('/api/v1/send', methods=['POST'])
 def send():
+    # Retrieve message and username from request arguments
     data = request.args.get('message')
+    username = request.args.get('username', 'UNKNOWN')  # Default to 'UNKNOWN' if not provided
+    
+    # Get the current timestamp
+    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    
+    # Send the message over the LoRa node
     send_message(data)
-    return jsonify("Message Sent")
+    
+    # Add the message to the database
+    add_message("You", data)
+
+    return jsonify({
+        "status": "Message Sent",
+        "username": username,
+        "message": data,
+        "timestamp": timestamp
+    })
 
 @app.route('/api/v1/clear', methods=['POST'])
 def clear():

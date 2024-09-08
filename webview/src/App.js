@@ -56,7 +56,6 @@ function App() {
         // Clear the input field after sending the message
         setInputValue("");
         // Optionally, fetch messages again to update the message list after sending
-        setMessages([...messages, { username: "You", message: inputValue }]); // Update messages with the newly sent message
       } catch (error) {
         console.error("Error sending message:", error);
       }
