@@ -13,11 +13,20 @@ By default, the primary UART is assigned to the Linux console. If you wish to us
   * At the prompt Would you like a login shell to be accessible over serial? answer 'No'
   * At the prompt Would you like the serial port hardware to be enabled? answer 'Yes'
   * Exit raspi-config and reboot the Pi for changes to take effect.
-### Library requirements 
+### API Library requirements 
 
   `sudo apt install python3-serial`
   `sudo apt install python3-flask`
   `sudo apt install sqlite3`
+
+### React Libary Requirements (in package.json by default)
+  `npm install axios`
+  `npm install concurrently"`
+  `npm install`
   
-### Running Program
-  `sudo python3 main.py`
+### Running Full Program
+  `cd webview`
+  `npm run start`
+
+### Running Only API
+  `sudo python app.py`
