@@ -65,8 +65,8 @@ function App() {
   };
 
   return (
-    <Container fluid className="vh-100 d-flex flex-column">
-      <Row className="bg-light p-2 align-items-center">
+    <Container fluid className="vh-100 d-flex flex-column bg-dark text-white"> {/* Dark mode classes */}
+      <Row className="bg-secondary p-2 align-items-center">
         <Col>
           <h5 className="mb-0">{username}</h5>
         </Col>
@@ -77,10 +77,10 @@ function App() {
         </Col>
       </Row>
 
-      <Row className="flex-grow-1 overflow-auto ps-3 mt-3"> {/* Added margin-top here */}
+      <Row className="flex-grow-1 overflow-auto ps-3 mt-3">
         <ListGroup className="w-100">
           {messages.map((message, index) => (
-            <ListGroup.Item key={index} className="mb-2 border rounded"> {/* Each message box */}
+            <ListGroup.Item key={index} className="mb-2 border rounded bg-dark text-white"> {/* Each message box */}
               <div>
                 <strong>{message.Username}:</strong> {message.Message}
               </div>
@@ -92,7 +92,7 @@ function App() {
         </ListGroup>
       </Row>
 
-      <Row className="mb-3"> {/* Added bottom margin here */}
+      <Row className="mb-3">
         <Col>
           <Form.Group>
             <Form.Control
@@ -102,7 +102,7 @@ function App() {
               onKeyDown={handleKeyDown}
               placeholder="Type a message..."
               rows={3}
-              className="chat-input"
+              className="chat-input bg-dark text-white border-secondary" // Dark background and text
             />
           </Form.Group>
         </Col>
