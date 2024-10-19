@@ -260,8 +260,7 @@ class sx126x:
             payload_end_index = r_buff.find(b'\x00', payload_start_index)
 
             payload = r_buff[payload_start_index:payload_end_index]
-            message = payload.decode()
-            return message
+            return payload
             
     def get_channel_rssi(self):
         GPIO.output(self.M1,GPIO.LOW)
