@@ -43,7 +43,7 @@ function App() {
   const sendMessage = async () => {
     if (inputValue.trim() !== "") {
       try {
-        const response = await client.post("/send", {
+        await client.post("/send", {
           message: inputValue,
           username: username,
         }); // Send as JSON payload
@@ -65,13 +65,17 @@ function App() {
 
   return (
     <div className="chat-container">
-      <button onClick={clearMessages} className="clear-button">
-        X
-      </button>
+      <div className="header">
+        <div className="username">{username}</div>
+        <button onClick={clearMessages} className="btn btn-primary clear-button">
+          CLEAR
+        </button>
+      </div>
 
       <div className="messages-container">
         {messages.map((message, index) => (
           <div key={index} className="message">
+            <div className="timestamp">{new Date(message.Timestamp).toLocaleTimeString()}</div>
             <strong>{message.Username}:</strong> {message.Message}
           </div>
         ))}

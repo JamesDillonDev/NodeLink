@@ -1,54 +1,51 @@
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-}
-
 .chat-container {
   display: flex;
   flex-direction: column;
-  height: 100vh; /* Full height */
-  width: 100vw; /* Full width */
-  padding: 20px; /* Padding around the container */
-  box-sizing: border-box; /* Include padding in height/width */
+  height: 100vh;
+  padding: 10px;
+  box-sizing: border-box;
 }
 
-.messages-container {
-  flex: 1; /* Take up available space */
-  overflow-y: auto; /* Enable vertical scrolling */
-  margin-bottom: 20px; /* Margin for spacing */
-  border: 1px solid #ccc; /* Border for the message container */
-  border-radius: 5px; /* Rounded corners */
-  padding: 10px; /* Padding inside the message container */
-  background-color: #f9f9f9; /* Light background color */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
 }
 
-.message {
-  margin: 5px 0; /* Spacing between messages */
-}
-
-.chat-input {
-  width: 100%; /* Full width */
-  height: 60px; /* Height of the input */
-  border: 1px solid #ccc; /* Border */
-  border-radius: 5px; /* Rounded corners */
-  padding: 10px; /* Padding */
-  font-size: 16px; /* Font size */
+.username {
+  font-weight: bold;
+  font-size: 1.2em;
 }
 
 .clear-button {
-  position: absolute; /* Position it relative to the nearest positioned ancestor */
-  top: 20px; /* Position from the top */
-  right: 20px; /* Position from the right */
-  background-color: blue; /* Blue background */
-  color: white; /* White text */
-  border: none; /* Remove default border */
-  border-radius: 50%; /* Make it round */
-  width: 40px; /* Width of the button */
-  height: 40px; /* Height of the button */
-  cursor: pointer; /* Change cursor on hover */
-  font-size: 16px; /* Font size */
+  border-radius: 20px; /* Round button */
 }
 
-.clear-button:hover {
-  background-color: darkblue; /* Darker blue on hover */
+.messages-container {
+  flex: 1;
+  overflow-y: auto;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 10px;
+  background-color: #f9f9f9;
+}
+
+.message {
+  margin-bottom: 10px;
+}
+
+.timestamp {
+  font-size: 0.8em;
+  color: #777;
+  margin-right: 5px;
+}
+
+.chat-input {
+  height: 60px;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  resize: none;
 }
