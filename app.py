@@ -72,7 +72,6 @@ def message_handler():
             with queue_lock:
                 message_data = message_queue.get()
                 send_message(message_data)
-                time.sleep(2)
         time.sleep(0.1)  # Prevent tight looping
 
 def add_to_queue(message):
