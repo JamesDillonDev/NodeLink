@@ -1,55 +1,56 @@
+/* App.css */
+
 .chat-container {
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-  padding: 10px;
-  box-sizing: border-box;
+  max-width: 600px; /* Set a max width for the chat */
+  margin: 0 auto;   /* Center the container */
+  padding: 20px;
+  background-color: #f8f9fa; /* Light background color */
+  border-radius: 10px; /* Rounded corners */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
 }
 
 .header {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 10px;
+  align-items: center; /* Vertically center the header contents */
+  margin-bottom: 15px; /* Space below header */
 }
 
 .username {
   font-weight: bold;
-  font-size: 1.2em;
+  font-size: 1.2rem; /* Larger font for username */
 }
 
 .clear-button {
-  background: none; /* No styling */
-  border: none; /* No border */
-  color: blue; /* Optional: default text color */
-  cursor: pointer; /* Pointer cursor */
-  font-size: 1em; /* Font size */
+  margin-left: auto; /* Push the button to the right */
 }
 
 .messages-container {
-  flex: 1;
-  overflow-y: auto;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  padding: 10px;
-  margin-bottom: 10px;
-  background-color: #f9f9f9;
+  max-height: 400px; /* Limit the height of messages container */
+  overflow-y: auto;  /* Allow scrolling when overflow occurs */
+  margin-bottom: 15px; /* Space below messages */
 }
 
 .message {
-  margin-bottom: 10px;
+  margin: 5px 0; /* Space between messages */
+  padding: 10px; /* Padding around message */
+  border-radius: 5px; /* Rounded corners for messages */
+  background-color: #ffffff; /* White background for messages */
 }
 
 .timestamp {
-  font-size: 0.8em;
-  color: #777;
-  margin-right: 5px;
+  font-size: 0.8rem; /* Smaller font for timestamp */
+  color: #6c757d; /* Bootstrap secondary color for timestamp */
+  margin-bottom: 5px; /* Space below timestamp */
 }
 
 .chat-input {
-  height: 60px;
-  padding: 10px;
-  border-radius: 5px;
-  border: 1px solid #ccc;
-  resize: none;
+  resize: none; /* Prevent resizing of the textarea */
+  border: 1px solid #ced4da; /* Border color matching Bootstrap */
+  border-radius: 5px; /* Rounded corners for input */
+}
+
+.chat-input:focus {
+  border-color: #80bdff; /* Change border color on focus */
+  outline: none; /* Remove default outline */
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); /* Bootstrap focus shadow */
 }

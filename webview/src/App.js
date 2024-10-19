@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { Container, Row, Col, Button, Form, ListGroup } from 'react-bootstrap';
 import './App.css';
 
 const hostname = "node2";
@@ -46,7 +47,7 @@ function App() {
         await client.post("/send", {
           message: inputValue,
           username: username,
-        }); // Send as JSON payload
+        });
         setInputValue("");
       } catch (error) {
         console.error("Error sending message:", error.response ? error.response.data : error);
@@ -64,31 +65,41 @@ function App() {
   };
 
   return (
-    <div className="chat-container">
-      <div className="header">
-        <div className="username">{username}</div>
-        <button onClick={clearMessages} className="clear-button">
-          CLEAR
-        </button>
-      </div>
+    <Container className="chat-container" fluid>
+      <Row className="header align-items-center">
+        <Col>
+          <h5 className="username">{username}</h5>
+        </Col>
+        <Col xs="auto">
+          <Button variant="danger" onClick={clearMessages}>
+            CLEAR
+          </Button>
+        </Col>
+      </Row>
 
-      <div className="messages-container">
+      <ListGroup className="messages-container">
         {messages.map((message, index) => (
-          <div key={index} className="message">
-            <div className="timestamp">{new Date(message.Timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
+          <ListGroup.Item key={index} className="message">
+            <div className="timestamp">
+              {new Date(message.Timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+            </div>
             <strong>{message.Username}:</strong> {message.Message}
-          </div>
+          </ListGroup.Item>
         ))}
-      </div>
+      </ListGroup>
 
-      <textarea
-        value={inputValue}
-        onChange={handleInputChange}
-        onKeyDown={handleKeyDown}
-        placeholder="Type a message..."
-        className="chat-input"
-      />
-    </div>
+      <Form.Group>
+        <Form.Control
+          as="textarea"
+          value={inputValue}
+          onChange={handleInputChange}
+          onKeyDown={handleKeyDown}
+          placeholder="Type a message..."
+          rows={3}
+          className="chat-input"
+        />
+      </Form.Group>
+    </Container>
   );
 }
 
