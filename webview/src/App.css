@@ -1,3 +1,11 @@
+/* Dark mode styles for the app */
+
+body {
+  background-color: #121212; /* Dark background */
+  color: #E0E0E0; /* Lighter text for dark mode */
+  font-family: Arial, sans-serif;
+}
+
 .App {
   text-align: center;
 }
@@ -14,18 +22,18 @@
 }
 
 .App-header {
-  background-color: #282c34;
+  background-color: #1c1c1c; /* Darker header background */
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
-  color: white;
+  color: #E0E0E0; /* Light text color */
 }
 
 .App-link {
-  color: #61dafb;
+  color: #BB86FC; /* Softer purple link color */
 }
 
 @keyframes App-logo-spin {
@@ -37,3 +45,50 @@
   }
 }
 
+/* Dark mode styling for chat components */
+.chat-container {
+  max-width: 600px;
+  margin: 50px auto;
+  padding: 20px;
+  background-color: #1E1E1E; /* Dark background for chat container */
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.7); /* Softer shadow */
+}
+
+.messages-container {
+  max-height: 300px;
+  overflow-y: auto;
+  margin-bottom: 20px;
+}
+
+.message {
+  margin: 10px 0;
+  padding: 10px;
+  background-color: #2C2C2C; /* Slightly lighter for message background */
+  border-radius: 5px;
+  color: #E0E0E0;
+}
+
+.chat-input {
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+  background-color: #2C2C2C; /* Dark input background */
+  color: #E0E0E0; /* Light text */
+  border: none;
+  outline: none;
+}
+
+.clear-button {
+  margin-top: 10px;
+  padding: 10px 20px;
+  background-color: #BB86FC; /* Purple button color */
+  color: #1E1E1E; /* Dark button text */
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.clear-button:hover {
+  background-color: #9A67EA; /* Darker purple on hover */
+}
