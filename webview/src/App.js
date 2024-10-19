@@ -2,9 +2,12 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './App.css';
 
+const hostname = "node2";
+const username = "James";
+
 // Create an Axios client with a base URL for your API
 const client = axios.create({
-  baseURL: "http://node2.local:5000/api/v1/", // Update to your Flask API URL
+  baseURL: `http://${hostname}.local:5000/api/v1/`, // Update to your Flask API URL
 });
 
 function App() {
@@ -51,11 +54,10 @@ function App() {
     if (inputValue.trim() !== "") {
       try {
         const response = await client.post("/send", null, {
-          params: { message: inputValue, username: "Node 1" } // Sending message as a query parameter
+          params: { message: inputValue, username: username } // Sending message as a query parameter
         });
         // Clear the input field after sending the message
         setInputValue("");
-        // Optionally, fetch messages again to update the message list after sending
       } catch (error) {
         console.error("Error sending message:", error);
       }
@@ -75,6 +77,11 @@ function App() {
 
   return (
     <div className="chat-container">
+      {/* Clear Button */}
+      <button onClick={clearMessages} className="clear-button">
+        X
+      </button>
+
       <div className="messages-container">
         {/* Render chat messages */}
         {messages.map((message, index) => (
@@ -92,11 +99,6 @@ function App() {
         placeholder="Type a message..."
         className="chat-input"
       />
-
-      {/* Button to clear messages */}
-      <button onClick={clearMessages} className="clear-button">
-        Clear Messages
-      </button>
     </div>
   );
 }

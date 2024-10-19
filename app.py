@@ -67,11 +67,18 @@ def message_handler():
             data = None
             try:
                 data = message.decode("utf-8")
-            except UnicodeDecodeError:
-                print("Decode Error")
-            if data != None:
-                add_message("UNKNOWN", data, datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+                # Parse the JSON payload
+                payload = json.loads(data)
+                username = payload.get("username", "UNKNOWN")
+                message_text = payload.get("message", "")
+                timestamp = payload.get("timestamp", datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
 
+                # Add the message to the database
+                add_message(username, message_text, timestamp)
+
+            except (UnicodeDecodeError, json.JSONDecodeError):
+                print("Decode or JSON Error")
+                
 # Flask routes
 @app.after_request
 def add_cors_headers(response):
@@ -90,23 +97,36 @@ def messages():
 
 @app.route('/api/v1/send', methods=['POST'])
 def send():
-    # Retrieve message and username from request arguments
-    data = request.args.get('message')
-    username = request.args.get('username', 'UNKNOWN')  # Default to 'UNKNOWN' if not provided
+    # Retrieve JSON payload
+    data = request.get_json()
+    
+    # Extract message and username from JSON payload
+    message = data.get('message')
+    username = data.get('username', 'UNKNOWN')  # Default to 'UNKNOWN' if not provided
+    
+    if not message:
+        return jsonify({"status": "Error", "message": "No message provided"}), 400
     
     # Get the current timestamp
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     
-    # Send the message over the LoRa node
-    send_message(data)
+    # Prepare JSON payload for LoRa
+    payload = {
+        "username": username,
+        "message": message,
+        "timestamp": timestamp
+    }
+
+    # Send the message over to LoRa
+    send_message(json.dumps(payload))
     
     # Add the message to the database
-    add_message("You", data, timestamp)
+    add_message(username, message, timestamp)
 
     return jsonify({
         "status": "Message Sent",
         "username": username,
-        "message": data,
+        "message": message,
         "timestamp": timestamp
     })
 
