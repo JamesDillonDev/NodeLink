@@ -19,7 +19,11 @@
 }
 
 .clear-button {
-  border-radius: 20px; /* Round button */
+  background: none; /* No styling */
+  border: none; /* No border */
+  color: blue; /* Optional: default text color */
+  cursor: pointer; /* Pointer cursor */
+  font-size: 1em; /* Font size */
 }
 
 .messages-container {

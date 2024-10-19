@@ -67,7 +67,7 @@ function App() {
     <div className="chat-container">
       <div className="header">
         <div className="username">{username}</div>
-        <button onClick={clearMessages} className="btn btn-primary clear-button">
+        <button onClick={clearMessages} className="clear-button">
           CLEAR
         </button>
       </div>
@@ -75,7 +75,7 @@ function App() {
       <div className="messages-container">
         {messages.map((message, index) => (
           <div key={index} className="message">
-            <div className="timestamp">{new Date(message.Timestamp).toLocaleTimeString()}</div>
+            <div className="timestamp">{new Date(message.Timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
             <strong>{message.Username}:</strong> {message.Message}
           </div>
         ))}
