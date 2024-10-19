@@ -2,8 +2,10 @@ import json
 import sqlite3
 from datetime import datetime
 from flask import Flask, jsonify, request, send_from_directory
-from threading import Thread
+from threading import Thread, Lock
 import sx126x
+import time
+from queue import Queue
 
 # Initialize Flask app
 app = Flask(__name__)
@@ -56,11 +58,27 @@ def clear_messages():
 # Board Controller
 node = sx126x.sx126x(serial_num="/dev/ttyS0", freq=868, addr=0, power=22, rssi=True, air_speed=2400, relay=False)
 
+# Message sending queue and lock
+message_queue = Queue()
+queue_lock = Lock()
+
 def send_message(message):
     data = bytes([255, 255, 18, 255, 255, 12]) + message.encode()
     node.send(data)
 
 def message_handler():
+    while True:
+        if not message_queue.empty():
+            with queue_lock:
+                message_data = message_queue.get()
+                send_message(message_data)
+        time.sleep(0.1)  # Prevent tight looping
+
+def add_to_queue(message):
+    with queue_lock:
+        message_queue.put(message)
+
+def message_receiver():
     while True:
         message = node.receive()
         if message:
@@ -117,8 +135,8 @@ def send():
         "timestamp": timestamp
     }
 
-    # Send the message over to LoRa
-    send_message(json.dumps(payload))
+    # Add the message to the queue
+    add_to_queue(json.dumps(payload))
     
     # Add the message to the database
     add_message(username, message, timestamp)
@@ -143,4 +161,5 @@ def swagger():
 if __name__ == '__main__':
     create_database()
     Thread(target=message_handler, daemon=True).start()
+    Thread(target=message_receiver, daemon=True).start()
     app.run(host='0.0.0.0', port=5000, debug=True)
