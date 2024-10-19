@@ -65,10 +65,10 @@ function App() {
   };
 
   return (
-    <Container className="chat-container" fluid>
-      <Row className="header align-items-center">
+    <Container fluid className="vh-100 d-flex flex-column">
+      <Row className="bg-light p-2 align-items-center">
         <Col>
-          <h5 className="username">{username}</h5>
+          <h5 className="mb-0">{username}</h5>
         </Col>
         <Col xs="auto">
           <Button variant="danger" onClick={clearMessages}>
@@ -77,28 +77,36 @@ function App() {
         </Col>
       </Row>
 
-      <ListGroup className="messages-container">
-        {messages.map((message, index) => (
-          <ListGroup.Item key={index} className="message">
-            <div className="timestamp">
-              {new Date(message.Timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-            </div>
-            <strong>{message.Username}:</strong> {message.Message}
-          </ListGroup.Item>
-        ))}
-      </ListGroup>
+      <Row className="flex-grow-1 overflow-auto">
+        <ListGroup className="w-100">
+          {messages.map((message, index) => (
+            <ListGroup.Item key={index} className="d-flex justify-content-between align-items-center">
+              <div>
+                <strong>{message.Username}:</strong> {message.Message}
+              </div>
+              <div className="text-muted" style={{ fontSize: '0.8rem' }}>
+                {new Date(message.Timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+              </div>
+            </ListGroup.Item>
+          ))}
+        </ListGroup>
+      </Row>
 
-      <Form.Group>
-        <Form.Control
-          as="textarea"
-          value={inputValue}
-          onChange={handleInputChange}
-          onKeyDown={handleKeyDown}
-          placeholder="Type a message..."
-          rows={3}
-          className="chat-input"
-        />
-      </Form.Group>
+      <Row>
+        <Col>
+          <Form.Group>
+            <Form.Control
+              as="textarea"
+              value={inputValue}
+              onChange={handleInputChange}
+              onKeyDown={handleKeyDown}
+              placeholder="Type a message..."
+              rows={3}
+              className="chat-input"
+            />
+          </Form.Group>
+        </Col>
+      </Row>
     </Container>
   );
 }
