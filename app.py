@@ -63,8 +63,13 @@ def send_message(message):
 def message_handler():
     while True:
         message = node.receive()
-        if message and message.strip():
-            add_message("UNKNOWN", message, datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+        if message:
+            try:
+                data = message.decode("utf-8")
+            except UnicodeDecodeError:
+                print("Decode Error")
+
+            add_message("UNKNOWN", data, datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
 
 # Flask routes
 @app.after_request
