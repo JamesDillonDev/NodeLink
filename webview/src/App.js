@@ -82,13 +82,14 @@ function App() {
           {messages.map((message, index) => (
             <ListGroup.Item 
               key={index} 
-              className="mb-2 border border-primary" 
-              style={{ borderColor: '#001f3f', backgroundColor: '#343a40' }} // Navy blue outline
+              className="mb-2 border" 
+              style={{ backgroundColor: '#343a40' }} // Match the message bubble background
             >
               <div>
-                <strong>{message.Username}:</strong> {message.Message}
+                <strong style={{ color: 'white' }}>{message.Username}:</strong> 
+                <span style={{ color: 'white' }}> {message.Message}</span>
               </div>
-              <div className="text-light" style={{ fontSize: '0.8rem' }}> {/* Changed to text-light for visibility */}
+              <div className="text-light" style={{ fontSize: '0.8rem' }}>
                 {new Date(message.Timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
               </div>
             </ListGroup.Item>
@@ -106,8 +107,12 @@ function App() {
               onKeyDown={handleKeyDown}
               placeholder="Type a message..."
               rows={3}
-              className="chat-input border border-primary"
-              style={{ borderColor: '#001f3f' }} // Navy blue border
+              className="chat-input"
+              style={{ 
+                backgroundColor: '#343a40', // Match the message bubble background
+                color: 'white', // Set text color to white
+                border: 'none' // Remove border
+              }} 
             />
           </Form.Group>
         </Col>
