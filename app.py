@@ -2,7 +2,7 @@ import json
 import sqlite3
 from datetime import datetime
 from flask import Flask, jsonify, request, send_from_directory
-from threading import Thread, Lock
+from threading import Thread, Lock, Event
 import sx126x
 import time
 from queue import Queue
@@ -91,27 +91,33 @@ def message_receiver():
                 message_text = payload.get("message", "")
                 timestamp = payload.get("timestamp", datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
 
-                # Add the message to the database
-                add_message(username, message_text, timestamp)
+                # Add the message to the database if not already added
+                if "confirmation" in payload:
+                    # Here we expect a confirmation with timestamp
+                    confirmation_timestamp = payload["timestamp"]
+                    print(f"Message received confirmation for timestamp: {confirmation_timestamp}")
+                else:
+                    # Add the message to the database
+                    add_message(username, message_text, timestamp)
 
             except (UnicodeDecodeError, json.JSONDecodeError):
                 print("Decode or JSON Error")
 
-# Flask routes
-@app.after_request
-def add_cors_headers(response):
-    response.headers['Access-Control-Allow-Origin'] = '*'
-    response.headers['Access-Control-Allow-Methods'] = 'GET, POST, OPTIONS'
-    response.headers['Access-Control-Allow-Headers'] = 'Content-Type, Authorization'
-    return response
+def send_with_confirmation(message, retries=3, timeout=10):
+    for attempt in range(retries):
+        event = Event()  # Create an Event to wait for confirmation
+        add_to_queue(message)
 
-@app.route('/api/v1')
-def api():
-    return jsonify("NodeLink API v1.1")
+        # Wait for confirmation with a timeout
+        if not event.wait(timeout):
+            print(f"Confirmation not received, retrying {attempt + 1}/{retries}...")
+            continue  # Retry sending the message
 
-@app.route('/api/v1/messages', methods=['GET'])
-def messages():
-    return display_messages()
+        print("Confirmation received, message recorded in database.")
+        return True  # Confirmation received
+
+    print("Failed to receive confirmation after multiple attempts.")
+    return False  # Failed to confirm
 
 @app.route('/api/v1/send', methods=['POST'])
 def send():
@@ -135,18 +141,19 @@ def send():
         "timestamp": timestamp
     }
 
-    # Add the message to the queue
-    add_to_queue(json.dumps(payload))
-    
-    # Add the message to the database
-    add_message(username, message, timestamp)
-
-    return jsonify({
-        "status": "Message Sent",
-        "username": username,
-        "message": message,
-        "timestamp": timestamp
-    })
+    # Attempt to send the message with confirmation
+    if send_with_confirmation(json.dumps(payload)):
+        return jsonify({
+            "status": "Message Sent",
+            "username": username,
+            "message": message,
+            "timestamp": timestamp
+        })
+    else:
+        return jsonify({
+            "status": "Error",
+            "message": "Failed to send message after multiple attempts."
+        }), 500
 
 @app.route('/api/v1/clear', methods=['POST'])
 def clear():
