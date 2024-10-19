@@ -78,7 +78,7 @@ def message_handler():
 
             except (UnicodeDecodeError, json.JSONDecodeError):
                 print("Decode or JSON Error")
-                
+
 # Flask routes
 @app.after_request
 def add_cors_headers(response):
