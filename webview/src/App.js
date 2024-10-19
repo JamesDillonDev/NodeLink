@@ -92,7 +92,7 @@ function App() {
         </ListGroup>
       </Row>
 
-      <Row>
+      <Row className="mb-3"> {/* Added bottom margin here */}
         <Col>
           <Form.Group>
             <Form.Control
