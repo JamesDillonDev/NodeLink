@@ -65,7 +65,7 @@ function App() {
   };
 
   return (
-    <Container fluid className="vh-100 d-flex flex-column bg-dark text-white"> {/* Dark mode classes */}
+    <Container fluid className="vh-100 d-flex flex-column bg-dark text-white">
       <Row className="bg-secondary p-2 align-items-center">
         <Col>
           <h5 className="mb-0">{username}</h5>
@@ -80,11 +80,15 @@ function App() {
       <Row className="flex-grow-1 overflow-auto ps-3 mt-3">
         <ListGroup className="w-100">
           {messages.map((message, index) => (
-            <ListGroup.Item key={index} className="mb-2 border rounded bg-dark text-white"> {/* Each message box */}
+            <ListGroup.Item 
+              key={index} 
+              className="mb-2 border border-primary" 
+              style={{ borderColor: '#001f3f', backgroundColor: '#343a40' }} // Navy blue outline
+            >
               <div>
                 <strong>{message.Username}:</strong> {message.Message}
               </div>
-              <div className="text-muted" style={{ fontSize: '0.8rem' }}>
+              <div className="text-light" style={{ fontSize: '0.8rem' }}> {/* Changed to text-light for visibility */}
                 {new Date(message.Timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
               </div>
             </ListGroup.Item>
@@ -102,7 +106,8 @@ function App() {
               onKeyDown={handleKeyDown}
               placeholder="Type a message..."
               rows={3}
-              className="chat-input bg-dark text-white border-secondary" // Dark background and text
+              className="chat-input border border-primary"
+              style={{ borderColor: '#001f3f' }} // Navy blue border
             />
           </Form.Group>
         </Col>
