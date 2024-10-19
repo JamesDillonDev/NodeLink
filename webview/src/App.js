@@ -77,10 +77,10 @@ function App() {
         </Col>
       </Row>
 
-      <Row className="flex-grow-1 overflow-auto">
+      <Row className="flex-grow-1 overflow-auto ps-3 mt-3"> {/* Added margin-top here */}
         <ListGroup className="w-100">
           {messages.map((message, index) => (
-            <ListGroup.Item key={index} className="d-flex justify-content-between align-items-center">
+            <ListGroup.Item key={index} className="mb-2 border rounded"> {/* Each message box */}
               <div>
                 <strong>{message.Username}:</strong> {message.Message}
               </div>
