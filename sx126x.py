@@ -247,7 +247,7 @@ class sx126x:
         self.ser.write(data)
         # if self.rssi == True:
             # self.get_channel_rssi()
-        time.sleep(0.1)
+        time.sleep(3)
         return
     
     def receive(self):
