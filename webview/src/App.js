@@ -51,7 +51,7 @@ function App() {
     if (inputValue.trim() !== "") {
       try {
         const response = await client.post("/send", null, {
-          params: { message: inputValue } // Sending message as a query parameter
+          params: { message: inputValue, username: "Node 1" } // Sending message as a query parameter
         });
         // Clear the input field after sending the message
         setInputValue("");
