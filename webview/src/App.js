@@ -90,7 +90,7 @@ function App() {
                 <span style={{ color: 'white' }}> {message.Message}</span>
               </div>
               <div className="text-light" style={{ fontSize: '0.8rem' }}>
-                {new Date(message.Timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                {new Date(message.Timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' })}
               </div>
             </ListGroup.Item>
           ))}
